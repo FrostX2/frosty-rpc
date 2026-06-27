@@ -51,8 +51,6 @@
     "nsis": {
       "oneClick": false,
       "perMachine": false,
-      "installDir": "$APPDATA\\Frozen-RPC",
-      "installDirName": "Frozen-RPC",
       "allowToChangeInstallationDirectory": false,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
