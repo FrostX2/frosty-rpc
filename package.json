@@ -1,7 +1,7 @@
 {
-  "name": "custom-discord-rpc",
+  "name": "frosty-rpc",
   "version": "1.0.0",
-  "description": "Cross-platform desktop Discord Rich Presence customizer",
+  "description": "Cross-platform desktop Discord Rich Presence injector",
   "main": "electron/main.js",
   "type": "module",
   "scripts": {

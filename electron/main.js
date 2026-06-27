@@ -63,7 +63,7 @@ function createWindow() {
     width: 580,
     height: 760,
     resizable: false,
-    title: "Custom Discord RPC",
+    title: "Frosty RPC",
     webPreferences: { preload: join(__dirname, "preload.js") },
   });
 

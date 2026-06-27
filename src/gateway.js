@@ -105,8 +105,8 @@ export function connectGateway(token, config, statusCallback) {
             token,
             properties: {
               os: process.platform,
-              browser: "custom-discord-rpc",
-              device: "custom-discord-rpc",
+              browser: "frosty-rpc",
+              device: "frosty-rpc",
             },
             presence: {
               activities: currentActivity ? [currentActivity] : [],
