@@ -13,7 +13,6 @@ case "$OS" in
   Linux*)
     echo "[1/3] Building Linux installers (AppImage, deb, rpm, pacman)..."
     cd "$DIR" && npx electron-builder --linux
-    echo "  → dist/"
 
     echo ""
     echo "[2/3] Building Flatpak..."
@@ -25,23 +24,21 @@ case "$OS" in
 
     echo ""
     echo "[3/3] Copying launcher scripts..."
-    mkdir -p "$DIR/dist/launcher"
-    cp "$DIR/frozen-rpc.sh" "$DIR/dist/launcher/"
-    cp "$DIR/frozen-rpc.desktop" "$DIR/dist/launcher/"
-    cp -r "$DIR/other-distro" "$DIR/dist/launcher/"
-    echo "  → dist/launcher/"
+    mkdir -p "$DIR/installer/launcher"
+    cp "$DIR/frozen-rpc.sh" "$DIR/installer/launcher/"
+    cp "$DIR/frozen-rpc.desktop" "$DIR/installer/launcher/"
+    cp -r "$DIR/other-distro" "$DIR/installer/launcher/"
+    echo "  → installer/launcher/"
     ;;
 
   Darwin*)
     echo "[1/1] Building macOS installers (DMG + PKG)..."
     cd "$DIR" && npx electron-builder --mac
-    echo "  → dist/"
     ;;
 
   MINGW*|MSYS*|CYGWIN*)
     echo "[1/1] Building Windows installer (NSIS)..."
     cd "$DIR" && npx electron-builder --win
-    echo "  → dist/"
     ;;
 
   *)
@@ -52,4 +49,4 @@ esac
 
 echo ""
 echo "=== All installers built successfully ==="
-echo "Output: $DIR/dist/"
+echo "Output: $DIR/installer/"

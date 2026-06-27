@@ -62,16 +62,16 @@ npm run dist:flatpak     # Linux Flatpak (.flatpak)
 npm run dist:all         # All for current OS (via build-installers.sh)
 ```
 
-| Format | OS | Output |
-|--------|----|--------|
-| **NSIS** | Windows | `dist/Frozen-RPC-Setup-*.exe` — installs to `%APPDATA%`, Start Menu + Desktop shortcuts |
-| **AppImage** | Linux | `dist/Frozen RPC-*.AppImage` — portable, double-click to run |
-| **DEB** | Linux (Debian/Ubuntu) | `dist/frozen-rpc_*.deb` — `sudo dpkg -i` |
-| **RPM** | Linux (Fedora/RHEL) | `dist/frozen-rpc-*.rpm` — `sudo rpm -i` |
-| **pacman** | Linux (Arch) | `dist/frozen-rpc-*.pkg.tar.zst` — `sudo pacman -U` |
-| **Flatpak** | Linux (any) | `flatpak/frozen-rpc.flatpak` — `flatpak --user install` |
-| **DMG** | macOS | `dist/Frozen RPC-*.dmg` — drag to Applications |
-| **PKG** | macOS | `dist/Frozen RPC-*.pkg` — double-click installer |
+| Format | OS | Output (in `../installer/`) |
+|--------|----|------------------------------|
+| **NSIS** | Windows | `Frozen-RPC-Setup-*.exe` — installs to `%APPDATA%`, Start Menu + Desktop shortcuts |
+| **AppImage** | Linux | `Frozen RPC-*.AppImage` — portable, double-click to run |
+| **DEB** | Linux (Debian/Ubuntu) | `frozen-rpc_*.deb` — `sudo dpkg -i` |
+| **RPM** | Linux (Fedora/RHEL) | `frozen-rpc-*.rpm` — `sudo rpm -i` |
+| **pacman** | Linux (Arch) | `frozen-rpc-*.pkg.tar.zst` — `sudo pacman -U` |
+| **Flatpak** | Linux (any) | `frozen-rpc.flatpak` (in `flatpak/`) — `flatpak --user install` |
+| **DMG** | macOS | `Frozen RPC-*.dmg` — drag to Applications |
+| **PKG** | macOS | `Frozen RPC-*.pkg` — double-click installer |
 
 ## Data Storage
 

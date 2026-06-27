@@ -31,7 +31,7 @@
     "appId": "com.frozenrpc.app",
     "productName": "Frozen RPC",
     "directories": {
-      "output": "dist"
+      "output": "../installer"
     },
     "files": [
       "electron/**/*",

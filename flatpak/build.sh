@@ -38,8 +38,11 @@ flatpak --user install -y --bundle repo 2>/dev/null || flatpak --user install -y
 flatpak build-bundle repo "frozen-rpc.flatpak" com.frozenrpc.app
 
 echo ""
+# Copy flatpak bundle to shared installer directory
+cp "frozen-rpc.flatpak" "$DIR/installer/" 2>/dev/null || mkdir -p "$DIR/installer" && cp "frozen-rpc.flatpak" "$DIR/installer/"
+
 echo "=== Done! ==="
-echo "Flatpak installed locally and bundled to: flatpak/frozen-rpc.flatpak"
+echo "Flatpak installed locally and bundled to: $DIR/installer/frozen-rpc.flatpak"
 echo ""
 echo "Install from file on another machine:"
 echo "  flatpak --user install frozen-rpc.flatpak"
