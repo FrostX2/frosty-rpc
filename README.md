@@ -1,88 +1,197 @@
-# Frozen RPC
 
-Cross-platform desktop app for Discord Rich Presence injection with OAuth2, auto-reconnect, and preset management.
+<p align="center">
+  <img src="assets/icon.png" alt="Frozen RPC" width="120">
+</p>
 
-## Features
+<h1 align="center">❄️ Frozen RPC</h1>
 
-- **Local mode** — sets presence via running Discord client (IPC)
-- **Inject mode** — sets presence via Discord Gateway using OAuth2 (no local client needed)
-- **All RPC fields** — text, images, timestamps, party, secrets, buttons, instance
-- **OAuth2 login** — authorize with Discord to get a token
-- **Auto-reconnect** — exponential backoff on disconnect
-- **Presets** — save/load/config export/import
-- **SQLite DB** (`rpc.db`) — stores accounts, presets, and config
+<p align="center">
+  <b>Cross-platform Discord Rich Presence Injector</b><br>
+  <i>Local IPC • OAuth2 Gateway • Auto-Reconnect • Presets</i>
+</p>
 
-## Setup
+<p align="center">
+  <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=flat-square">
+  <img src="https://img.shields.io/github/package-json/v/FrostX2/frosty-rpc?style=flat-square&color=blueviolet">
+  <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square">
+  <img src="https://img.shields.io/badge/electron-42.x-47848F?style=flat-square&logo=electron">
+  <img src="https://img.shields.io/badge/discord-rpc-5865F2?style=flat-square&logo=discord">
+</p>
 
-Create a Discord application at https://discord.com/developers/applications and add a redirect URI of `http://localhost:53173/callback`.
+---
 
-Run the launcher for your OS:
+## ✨ Features
+
+<table>
+<tr>
+<td width="50%">
+
+**🎮 Two Connection Modes**
+- **Local** — IPC via running Discord client
+- **Inject** — Gateway + OAuth2, no client needed
+
+**📋 Full RPC Support**
+- Text, images, timestamps
+- Party, secrets, buttons
+- Instance flag
+
+</td>
+<td width="50%">
+
+**🔐 OAuth2 Login**
+- Authorize with Discord
+- Token refresh & persistence
+- Manage multiple accounts
+
+**🔄 Auto-Reconnect**
+- Exponential backoff
+- Tray status indicator
+- Seamless reconnect
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+**💾 Preset Manager**
+- Save/load presets
+- Full data export/import
+- Quick switching
+
+</td>
+<td width="50%">
+
+**📦 All Formats**
+- Windows NSIS installer
+- Linux: AppImage, DEB, RPM, Pacman, Flatpak
+- macOS: DMG, PKG
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🚀 Quick Start
 
 ```bash
-./shell/frozen-rpc.sh      # Linux / macOS
-shell\frozen-rpc.bat       # Windows (double-click)
-```
+# 1. Clone & install
+git clone https://github.com/FrostX2/frosty-rpc.git
+cd frosty-rpc
+npm install
 
-The launcher auto-detects your distro/OS and runs the right script from `shell/distro/`.
-
-## Usage
-
-```bash
+# 2. Launch
 npm start
 ```
 
-1. **Settings tab** — enter your Client ID/Secret
-2. **Accounts tab** → click **Login with Discord**
-3. **RPC tab** → fill in your presence, choose mode, click **Connect**
-4. Minimize to tray — presence keeps running
-
-### Local Mode
-
-Uses Discord's local IPC. Discord must be running. Enter your Client ID and connect.
-
-### Inject Mode (OAuth2)
-
-Uses Discord Gateway with an OAuth2 token. No local client needed. Authorize an account, select it, and connect.
-
-## Shortcuts / Desktop Integration
-
-| OS | File | How to install |
-|----|------|---------------|
-| Linux | `shell/frozen-rpc.desktop` | Run `bash shell/install/linux-install-desktop.sh` |
-| macOS | `shell/Frozen RPC.app` | Run `bash shell/install/macos-install-app.sh` |
-| Windows | `shell/frozen-rpc.bat` | Double-click `shell/install/windows-shortcut.vbs` |
-
-## Build Installers
+### Or use the universal launcher:
 
 ```bash
-npm run dist:win         # Windows NSIS (.exe)
-npm run dist:linux       # Linux: AppImage + .deb + .rpm + .pacman
-npm run dist:mac         # macOS DMG + PKG
-npm run dist:flatpak     # Linux Flatpak (.flatpak) — runs shell/install/build-flatpak.sh
-npm run dist:all         # All for current OS (via shell/build-installers.sh)
+./shell/frozen-rpc.sh      # Linux / macOS
+shell\frozen-rpc.bat       # Windows
 ```
 
-| Format | OS | Output (in `../installer/`) |
-|--------|----|------------------------------|
-| **NSIS** | Windows | `Frozen-RPC-Setup-*.exe` — installs to `%APPDATA%`, Start Menu + Desktop shortcuts |
-| **AppImage** | Linux | `Frozen RPC-*.AppImage` — portable, double-click to run |
-| **DEB** | Linux (Debian/Ubuntu) | `frozen-rpc_*.deb` — `sudo dpkg -i` |
-| **RPM** | Linux (Fedora/RHEL) | `frozen-rpc-*.rpm` — `sudo rpm -i` |
-| **pacman** | Linux (Arch) | `frozen-rpc-*.pkg.tar.zst` — `sudo pacman -U` |
-| **Flatpak** | Linux (any) | `frozen-rpc.flatpak` (in `installer/`) — `flatpak --user install` |
-| **DMG** | macOS | `Frozen RPC-*.dmg` — drag to Applications |
-| **PKG** | macOS | `Frozen RPC-*.pkg` — double-click installer |
+> The launcher auto-detects your distro/OS and handles dependencies automatically.
 
-## Data Storage
+---
 
-| File | Contents |
-|------|----------|
-| `rpc.db` | SQLite — accounts, presets, config |
-| `config/config.json` | App credentials (Client ID/Secret) |
+## 📖 Usage Guide
 
-Export/import all data from the Accounts tab.
+### 1️⃣ Configure App
+Go to **Settings** tab → enter your Discord Client ID & Secret
 
-## Requirements
+### 2️⃣ Authorize (Inject Mode)
+Go to **Accounts** tab → click **Login with Discord** → authorize in browser
 
-- Node.js 18+
-- Discord desktop client (for local mode only)
+### 3️⃣ Set Your Presence
+Go to **RPC** tab → fill in your rich presence → choose mode → **Connect**
+
+### 4️⃣ Minimize to Tray
+Presence keeps running while the app sits in your system tray.
+
+### Mode Comparison
+
+| Local Mode | Inject Mode |
+|------------|-------------|
+| Requires Discord client running | No local client needed |
+| Uses IPC transport | Uses Gateway WebSocket |
+| Just needs Client ID | Needs OAuth2 token |
+| Limited to single client | Any account, anywhere |
+
+---
+
+## 📦 Installers
+
+| Command | Produces |
+|---------|----------|
+| `npm run dist:win` | NSIS installer (`.exe`) |
+| `npm run dist:linux` | AppImage + `.deb` + `.rpm` + `.pacman` |
+| `npm run dist:mac` | DMG + PKG |
+| `npm run dist:flatpak` | Flatpak bundle (`.flatpak`) |
+| `npm run dist:all` | Everything for current OS |
+
+All installers land in `../installer/` (project parent directory).
+
+### Platform Details
+
+| Format | OS | Install |
+|--------|----|---------|
+| 🪟 **NSIS** | Windows | `Frozen-RPC-Setup-*.exe` — auto-installs to `%APPDATA%`, Start Menu + Desktop shortcuts |
+| 🐧 **AppImage** | Linux | `Frozen RPC-*.AppImage` — portable, double-click |
+| 🐧 **DEB** | Debian/Ubuntu | `sudo dpkg -i frozen-rpc_*.deb` |
+| 🐧 **RPM** | Fedora/RHEL | `sudo rpm -i frozen-rpc-*.rpm` |
+| 🐧 **Pacman** | Arch | `sudo pacman -U frozen-rpc-*.pkg.tar.zst` |
+| 🐧 **Flatpak** | Any Linux | `flatpak --user install frozen-rpc.flatpak` |
+| 🍎 **DMG** | macOS | Drag to Applications |
+| 🍎 **PKG** | macOS | Double-click installer |
+
+---
+
+## 🖥️ Desktop Integration
+
+| OS | File | Install Command |
+|----|------|----------------|
+| 🐧 Linux | `shell/frozen-rpc.desktop` | `bash shell/install/linux-install-desktop.sh` |
+| 🍎 macOS | `shell/Frozen RPC.app` | `bash shell/install/macos-install-app.sh` |
+| 🪟 Windows | `shell/frozen-rpc.bat` | Double-click `shell/install/windows-shortcut.vbs` |
+
+---
+
+## 🗄️ Data Storage
+
+| File | What's Inside |
+|------|---------------|
+| `rpc.db` | SQLite — accounts, presets, all config |
+| `config/config.json` | Discord app credentials |
+
+> Export/import everything from the **Accounts** tab.
+
+---
+
+## 🛠️ Requirements
+
+- **Node.js** 18+ ([download](https://nodejs.org))
+- **Discord desktop client** — only needed for Local mode
+- **npm** — ships with Node.js
+
+---
+
+## 📁 Project Structure
+
+```
+frosty-rpc/
+├── src/              Core application (main process, modules)
+├── renderer/         Frontend (HTML, JS, CSS)
+├── shell/            Launchers, distro scripts, install helpers
+├── assets/           Icons and static assets
+├── flatpak/          Flatpak manifest
+├── config/           App credentials
+└── package.json      Dependencies & build config
+```
+
+---
+
+<p align="center">
+  <sub>Built with ❤️ using Electron + discord-rpc + better-sqlite3</sub><br>
+  <sub>MIT License · © FrostX2</sub>
+</p>
