@@ -16,7 +16,7 @@
   },
   "keywords": ["discord", "rpc", "rich-presence", "electron", "desktop"],
   "license": "MIT",
-  "author": "FrostX2",
+  "author": "NotFrost <notfrost@users.noreply.github.com>",
   "dependencies": {
     "better-sqlite3": "^12.11.1",
     "discord-rpc": "^4.0.1",
@@ -65,12 +65,12 @@
         "AppImage",
         "deb",
         "rpm",
-        "pacman",
-        "freebsd"
+        "pacman"
       ],
       "category": "Network",
       "synopsis": "Discord Rich Presence injector",
-      "description": "Cross-platform desktop app for custom Discord Rich Presence with OAuth2 injection."
+      "description": "Cross-platform desktop app for custom Discord Rich Presence with OAuth2 injection.",
+      "maintainer": "NotFrost <notfrost@users.noreply.github.com>"
     },
     "mac": {
       "icon": "assets/icon.png",
