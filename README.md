@@ -1,44 +1,36 @@
 # Custom Discord RPC
 
-Cross-platform custom Discord Rich Presence application.
+Cross-platform desktop app to set custom Discord Rich Presence.
 
 ## Setup
 
 1. Create a Discord application at https://discord.com/developers/applications
-2. Copy your application's **Client ID**
+2. Copy your **Client ID**
 3. Install dependencies:
 
 ```bash
 npm install
 ```
 
-4. Configure your presence:
-
-```bash
-cp .env.example .env
-# Edit .env and add your CLIENT_ID
-
-cp config.example.json config.json
-# Edit config.json to customize your Rich Presence
-```
-
-## Usage
-
-Start the Rich Presence:
+4. Launch the app:
 
 ```bash
 npm start
 ```
 
-Make sure Discord is running before starting the app.
+## Usage
+
+Enter your Client ID, customize the presence fields, and click **Connect**. Use **Update** to refresh the presence without disconnecting.
 
 ## Configuration
 
-Edit `config.json` to customize:
-- `details` / `state` — main text lines
-- `showTime` — show elapsed time
-- `largeImageKey` / `smallImageKey` — image asset keys from your Discord app
-- `buttons` — up to 2 buttons with label and url
+Settings are saved to `config.json` automatically when you connect.
+
+## Build Distributable
+
+```bash
+npx electron-builder
+```
 
 ## Requirements
 
