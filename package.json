@@ -58,6 +58,9 @@
       "runAfterFinish": true,
       "artifactName": "Frozen-RPC-Setup-${version}.${ext}"
     },
+    "msi": {
+      "artifactName": "Frozen-RPC-Setup-${version}.${ext}"
+    },
     "linux": {
       "icon": "assets/icon.png",
       "artifactName": "Frozen-RPC-${version}.${ext}",
