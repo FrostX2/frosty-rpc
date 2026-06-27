@@ -1,13 +1,13 @@
 import { appendFileSync, mkdirSync, existsSync, writeFileSync, readFileSync } from "fs";
-import { join, dirname } from "path";
-import { fileURLToPath } from "url";
+import { join } from "path";
+import { app } from "electron";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const LOG_DIR = join(__dirname, "..", "logs");
-const LOG_FILE = join(LOG_DIR, "app.log");
+let LOG_FILE;
 
 export function initLogger() {
-  if (!existsSync(LOG_DIR)) mkdirSync(LOG_DIR, { recursive: true });
+  const logDir = join(app.getPath("userData"), "logs");
+  if (!existsSync(logDir)) mkdirSync(logDir, { recursive: true });
+  LOG_FILE = join(logDir, "app.log");
   const header = `\n═══════ Session started ${new Date().toISOString()} ␊\n`;
   appendFileSync(LOG_FILE, header);
 }
