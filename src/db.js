@@ -1,7 +1,8 @@
 import Database from "better-sqlite3";
 import { join } from "path";
+import { existsSync, unlinkSync } from "fs";
 import { app } from "electron";
-import { logInfo, logError } from "./logger.js";
+import { logInfo, logError, logWarn } from "./logger.js";
 
 let db;
 let dbPath;
@@ -9,6 +10,46 @@ let dbPath;
 function getDBPath() {
   if (!dbPath) dbPath = join(app.getPath("userData"), "rpc.db");
   return dbPath;
+}
+
+function migrateOldDB() {
+  try {
+    const oldPath = join(app.getAppPath(), "rpc.db");
+    if (!existsSync(oldPath)) return;
+
+    const hasAccounts = db.prepare("SELECT COUNT(*) as c FROM accounts").get().c > 0;
+    if (hasAccounts) return;
+
+    logInfo(`Migrating data from old database: ${oldPath}`);
+    const oldDB = new Database(oldPath);
+
+    const oldConfig = oldDB.prepare("SELECT * FROM config").all();
+    for (const row of oldConfig) {
+      db.prepare("INSERT OR IGNORE INTO config (key, value) VALUES (?, ?)").run(row.key, row.value);
+    }
+
+    const oldAccounts = oldDB.prepare("SELECT * FROM accounts").all();
+    for (const acc of oldAccounts) {
+      db.prepare(`
+        INSERT OR IGNORE INTO accounts (id, username, avatar, access_token, refresh_token, expires_at)
+        VALUES (?, ?, ?, ?, ?, ?)
+      `).run(acc.id, acc.username, acc.avatar, acc.access_token, acc.refresh_token, acc.expires_at);
+    }
+
+    const oldPresets = oldDB.prepare("SELECT * FROM presets").all();
+    for (const p of oldPresets) {
+      db.prepare(`
+        INSERT OR IGNORE INTO presets (id, name, config, created_at)
+        VALUES (?, ?, ?, ?)
+      `).run(p.id, p.name, p.config, p.created_at);
+    }
+
+    oldDB.close();
+    unlinkSync(oldPath);
+    logInfo("Old database migrated and removed");
+  } catch (err) {
+    logWarn(`Old database migration skipped: ${err.message}`);
+  }
 }
 
 export function initDB() {
@@ -36,6 +77,8 @@ export function initDB() {
         created_at INTEGER DEFAULT (unixepoch())
       );
     `);
+
+    migrateOldDB();
 
     logInfo(`Database initialized: ${dbPath}`);
   } catch (err) {
