@@ -1,34 +1,73 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const connectBtn = document.getElementById("connectBtn");
-  const updateBtn = document.getElementById("updateBtn");
-  const disconnectBtn = document.getElementById("disconnectBtn");
-  const statusDot = document.getElementById("statusDot");
-  const statusText = document.getElementById("statusText");
+  const $ = (id) => document.getElementById(id);
+
+  const connectBtn = $("connectBtn");
+  const updateBtn = $("updateBtn");
+  const disconnectBtn = $("disconnectBtn");
+  const statusDot = $("statusDot");
+  const statusText = $("statusText");
 
   const config = await window.rpcAPI.getConfig();
 
   function populateForm(cfg) {
     if (!cfg) return;
-    document.getElementById("clientId").value = cfg.clientId || "";
-    document.getElementById("details").value = cfg.details || "";
-    document.getElementById("state").value = cfg.state || "";
-    document.getElementById("largeImageKey").value = cfg.largeImageKey || "";
-    document.getElementById("largeImageText").value = cfg.largeImageText || "";
-    document.getElementById("smallImageKey").value = cfg.smallImageKey || "";
-    document.getElementById("smallImageText").value = cfg.smallImageText || "";
-    document.getElementById("showTime").checked = cfg.showTime !== false;
+    $("clientId").value = cfg.clientId || "";
+    $("details").value = cfg.details || "";
+    $("state").value = cfg.state || "";
+    $("largeImageKey").value = cfg.largeImageKey || "";
+    $("largeImageText").value = cfg.largeImageText || "";
+    $("smallImageKey").value = cfg.smallImageKey || "";
+    $("smallImageText").value = cfg.smallImageText || "";
+    $("partyId").value = cfg.partyId || "";
+    $("partySize").value = cfg.partySize ?? "";
+    $("partyMax").value = cfg.partyMax ?? "";
+    $("joinSecret").value = cfg.joinSecret || "";
+    $("spectateSecret").value = cfg.spectateSecret || "";
+    $("matchSecret").value = cfg.matchSecret || "";
+    $("showTime").checked = cfg.showTime !== false;
+    $("instance").checked = !!cfg.instance;
+
+    if (cfg.startTimestamp) {
+      $("startTimestamp").value = toDatetimeLocal(new Date(cfg.startTimestamp));
+    }
+    if (cfg.endTimestamp) {
+      $("endTimestamp").value = toDatetimeLocal(new Date(cfg.endTimestamp));
+    }
 
     if (cfg.buttons) {
-      const labels = document.querySelectorAll(".btn-label");
-      const urls = document.querySelectorAll(".btn-url");
-      cfg.buttons.forEach((btn, i) => {
-        if (labels[i]) labels[i].value = btn.label || "";
-        if (urls[i]) urls[i].value = btn.url || "";
+      document.querySelectorAll(".button-row").forEach((row, i) => {
+        const btn = cfg.buttons[i];
+        if (btn) {
+          row.querySelector(".btn-label").value = btn.label || "";
+          row.querySelector(".btn-url").value = btn.url || "";
+        }
       });
     }
   }
 
+  function toDatetimeLocal(date) {
+    const offset = date.getTimezoneOffset();
+    const local = new Date(date.getTime() - offset * 60000);
+    return local.toISOString().slice(0, 16);
+  }
+
   function readForm() {
+    const startVal = $("startTimestamp").value;
+    const endVal = $("endTimestamp").value;
+
+    let startTimestamp = undefined;
+    let endTimestamp = undefined;
+
+    if ($("showTime").checked && !startVal) {
+      startTimestamp = Date.now();
+    } else if (startVal) {
+      startTimestamp = new Date(startVal).getTime();
+    }
+
+    if (endVal) {
+      endTimestamp = new Date(endVal).getTime();
+    }
+
     const buttons = [];
     document.querySelectorAll(".button-row").forEach((row) => {
       const label = row.querySelector(".btn-label").value.trim();
@@ -37,29 +76,43 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     return {
-      details: document.getElementById("details").value.trim(),
-      state: document.getElementById("state").value.trim(),
-      largeImageKey: document.getElementById("largeImageKey").value.trim(),
-      largeImageText: document.getElementById("largeImageText").value.trim(),
-      smallImageKey: document.getElementById("smallImageKey").value.trim(),
-      smallImageText: document.getElementById("smallImageText").value.trim(),
-      showTime: document.getElementById("showTime").checked,
+      details: $("details").value.trim(),
+      state: $("state").value.trim(),
+      largeImageKey: $("largeImageKey").value.trim(),
+      largeImageText: $("largeImageText").value.trim(),
+      smallImageKey: $("smallImageKey").value.trim(),
+      smallImageText: $("smallImageText").value.trim(),
+      startTimestamp,
+      endTimestamp,
+      partyId: $("partyId").value.trim(),
+      partySize: $("partySize").value !== "" ? parseInt($("partySize").value, 10) : undefined,
+      partyMax: $("partyMax").value !== "" ? parseInt($("partyMax").value, 10) : undefined,
+      joinSecret: $("joinSecret").value.trim(),
+      spectateSecret: $("spectateSecret").value.trim(),
+      matchSecret: $("matchSecret").value.trim(),
+      instance: $("instance").checked,
+      showTime: $("showTime").checked,
       buttons,
     };
   }
 
-  function setStatus(connected) {
+  function setStatus(connected, message) {
     statusDot.className = "status-dot " + (connected ? "connected" : "disconnected");
-    statusText.textContent = connected ? "Connected" : "Disconnected";
+    statusText.textContent = message || (connected ? "Connected" : "Disconnected");
     connectBtn.disabled = connected;
     disconnectBtn.disabled = !connected;
     updateBtn.disabled = !connected;
+    connectBtn.textContent = connected ? "Connected" : "Connect";
   }
 
   populateForm(config);
 
+  window.rpcAPI.onStatusChange((status) => {
+    setStatus(status.connected, status.message);
+  });
+
   connectBtn.addEventListener("click", async () => {
-    const clientId = document.getElementById("clientId").value.trim();
+    const clientId = $("clientId").value.trim();
     if (!clientId) {
       statusText.textContent = "Enter a Client ID";
       return;
@@ -72,7 +125,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const result = await window.rpcAPI.startRPC(clientId, config);
 
     if (result.success) {
-      setStatus(true);
+      setStatus(true, "Connected");
     } else {
       statusDot.className = "status-dot disconnected";
       statusText.textContent = "Error: " + (result.error || "Connection failed");
@@ -86,7 +139,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const result = await window.rpcAPI.updateActivity(config);
     if (result.success) {
       statusText.textContent = "Presence updated!";
-      setTimeout(() => statusText.textContent = "Connected", 2000);
+      setTimeout(() => setStatus(true, "Connected"), 2000);
     } else {
       statusText.textContent = "Update failed";
     }
@@ -94,7 +147,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   disconnectBtn.addEventListener("click", async () => {
     await window.rpcAPI.stopRPC();
-    setStatus(false);
-    connectBtn.textContent = "Connect";
+    setStatus(false, "Disconnected");
   });
 });

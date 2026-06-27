@@ -1,32 +1,36 @@
 # Custom Discord RPC
 
-Cross-platform desktop app to set custom Discord Rich Presence.
+Cross-platform desktop app to set a fully custom Discord Rich Presence with auto-reconnect.
 
 ## Setup
-
-1. Create a Discord application at https://discord.com/developers/applications
-2. Copy your **Client ID**
-3. Install dependencies:
 
 ```bash
 npm install
 ```
 
-4. Launch the app:
+## Usage
 
 ```bash
 npm start
 ```
 
-## Usage
+- Enter your Discord app's **Client ID**
+- Customize every RPC field (text, images, timestamps, party, secrets, buttons)
+- Click **Connect** — the app auto-reconnects if Discord disconnects
+- Minimize to tray — the presence keeps running
 
-Enter your Client ID, customize the presence fields, and click **Connect**. Use **Update** to refresh the presence without disconnecting.
+## All Custom Fields
 
-## Configuration
+| Section  | Fields |
+|----------|--------|
+| Text     | details, state |
+| Images   | large image key/tooltip, small image key/tooltip |
+| Time     | start timestamp, end timestamp, elapsed toggle |
+| Party    | party ID, size, max |
+| Secrets  | join, spectate, match |
+| Buttons  | up to 2 buttons with label + URL |
 
-Settings are saved to `config.json` automatically when you connect.
-
-## Build Distributable
+## Build
 
 ```bash
 npx electron-builder
