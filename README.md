@@ -16,24 +16,14 @@ Cross-platform desktop app for Discord Rich Presence injection with OAuth2, auto
 
 Create a Discord application at https://discord.com/developers/applications and add a redirect URI of `http://localhost:53173/callback`.
 
-### Linux
+Run the launcher for your OS:
 
 ```bash
-# Install system dependencies (optional — for Electron compatibility)
-bash scripts/install-deps.sh
-
-# Install Node deps and run
-npm install
-bash frozen-rpc.sh
+./frozen-rpc.sh      # Linux / macOS
+frozen-rpc.bat       # Windows (double-click)
 ```
 
-### Windows / macOS
-
-```bash
-npm install
-```
-
-Then run `frozen-rpc.bat` (Windows) or `frozen-rpc.command` (macOS).
+The launcher auto-detects your distro/OS and runs the right script from `other-distro/`.
 
 ## Usage
 

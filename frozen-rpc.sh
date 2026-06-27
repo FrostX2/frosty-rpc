@@ -4,28 +4,29 @@ set -e
 DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$DIR"
 
-if ! command -v node &>/dev/null; then
-  echo "Node.js not found."
-  if command -v apt &>/dev/null; then
-    echo "  Install: sudo apt install nodejs npm"
-  elif command -v dnf &>/dev/null; then
-    echo "  Install: sudo dnf install nodejs npm"
-  elif command -v pacman &>/dev/null; then
-    echo "  Install: sudo pacman -S nodejs npm"
-  elif command -v zypper &>/dev/null; then
-    echo "  Install: sudo zypper install nodejs npm"
-  elif command -v apk &>/dev/null; then
-    echo "  Install: sudo apk add nodejs npm"
-  else
-    echo "  Download from https://nodejs.org"
-  fi
-  exit 1
-fi
+OS="$(uname -s)"
 
-if [ ! -d node_modules ]; then
-  echo "Installing dependencies..."
-  npm install
-fi
-
-echo "Starting Frozen RPC..."
-exec npx electron .
+case "$OS" in
+  Darwin)
+    exec bash other-distro/macos.sh
+    ;;
+  Linux)
+    if command -v apt &>/dev/null; then
+      exec bash other-distro/linux-debian.sh
+    elif command -v dnf &>/dev/null; then
+      exec bash other-distro/linux-fedora.sh
+    elif command -v pacman &>/dev/null; then
+      exec bash other-distro/linux-arch.sh
+    elif command -v zypper &>/dev/null; then
+      exec bash other-distro/linux-opensuse.sh
+    else
+      exec bash other-distro/linux-generic.sh
+    fi
+    ;;
+  *)
+    echo "Not Supported Operating System"
+    echo "Detected: $OS"
+    echo "Frozen RPC supports: Linux, macOS, Windows"
+    exit 1
+    ;;
+esac
