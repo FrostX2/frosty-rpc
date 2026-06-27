@@ -6,16 +6,15 @@
   "type": "module",
   "scripts": {
     "start": "electron .",
-    "dev": "electron ."
+    "dev": "electron .",
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win",
+    "dist:linux": "electron-builder --linux",
+    "dist:mac": "electron-builder --mac"
   },
-  "keywords": [
-    "discord",
-    "rpc",
-    "rich-presence",
-    "electron",
-    "desktop"
-  ],
+  "keywords": ["discord", "rpc", "rich-presence", "electron", "desktop"],
   "license": "MIT",
+  "author": "FrostX2",
   "dependencies": {
     "better-sqlite3": "^12.11.1",
     "discord-rpc": "^4.0.1",
@@ -23,6 +22,53 @@
     "ws": "^8.21.0"
   },
   "devDependencies": {
-    "electron": "^42.0.0"
+    "electron": "^42.0.0",
+    "electron-builder": "^25.0.0"
+  },
+  "build": {
+    "appId": "com.frozenrpc.app",
+    "productName": "Frozen RPC",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "electron/**/*",
+      "renderer/**/*",
+      "src/**/*",
+      "img/**/*",
+      "config/**/*",
+      "package.json"
+    ],
+    "win": {
+      "icon": "img/icon.png",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "installDir": "$APPDATA\\Frozen-RPC",
+      "installDirName": "Frozen-RPC",
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Frozen RPC",
+      "runAfterFinish": true,
+      "artifactName": "Frozen-RPC-Setup-${version}.${ext}"
+    },
+    "linux": {
+      "icon": "img/icon.png",
+      "target": ["AppImage", "deb"],
+      "category": "Network"
+    },
+    "mac": {
+      "icon": "img/icon.png",
+      "target": ["dmg"],
+      "category": "public.app-category.utilities"
+    }
   }
 }

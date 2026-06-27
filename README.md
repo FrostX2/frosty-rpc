@@ -54,11 +54,16 @@ Uses Discord Gateway with an OAuth2 token. No local client needed. Authorize an 
 
 Export/import all data from the Accounts tab.
 
-## Build
+## Build Installer
 
 ```bash
-npx electron-builder
+npm run dist:win     # Windows NSIS installer
+npm run dist:linux   # Linux AppImage + deb
+npm run dist:mac     # macOS DMG
+npm run dist         # All platforms
 ```
+
+On Windows, the installer places the app at `%APPDATA%\Frozen-RPC` and auto-creates Start Menu and Desktop shortcuts.
 
 ## Requirements
 
