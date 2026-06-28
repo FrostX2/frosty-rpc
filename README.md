@@ -6,12 +6,12 @@
 
 <p align="center">
   <b>Cross-platform Discord Rich Presence Injector</b><br>
-  <i>Local IPC • OAuth2 Gateway • Auto-Reconnect • Presets</i>
+  <i>Local IPC • OAuth2 Gateway • Auto-Reconnect • Profiles • Custom CSS</i>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=flat-square">
-  <img src="https://img.shields.io/github/v/release/FrostX2/frosty-rpc?style=flat-square&color=blueviolet&label=version">
+  <img src="https://img.shields.io/github/v/release/FrostX2/frozen-rpc?style=flat-square&color=blueviolet&label=version">
   <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square">
   <img src="https://img.shields.io/badge/electron-42.x-47848F?style=flat-square&logo=electron">
   <img src="https://img.shields.io/badge/discord-rpc-5865F2?style=flat-square&logo=discord">
@@ -25,7 +25,7 @@
 
 ### ⬇️ Download
 
-[**Releases →**](https://github.com/FrostX2/frosty-rpc/releases)
+[**Releases →**](https://github.com/FrostX2/frozen-rpc/releases)
 
 | OS | Format |
 |----|--------|
@@ -39,8 +39,8 @@
 ### 🔧 Build
 
 ```bash
-git clone https://github.com/FrostX2/frosty-rpc.git
-cd frosty-rpc
+git clone https://github.com/FrostX2/frozen-rpc.git
+cd frozen-rpc
 npm install
 ./frozen-rpc              # run directly
 npm run dist:all          # build installers
@@ -56,10 +56,12 @@ npm run dist:all          # build installers
 
 | | | |
 |---|---|---|
-| 🎮 **Local & Inject modes** | 🔐 **OAuth2 login** | 💾 **Preset manager** |
+| 🎮 **Local & Inject modes** | 🔐 **OAuth2 login** | 💾 **Profile manager** |
 | Direct IPC or Gateway WS | Token refresh & persistence | Save/load/swap profiles |
-| 📋 **Full RPC fields** | 🔄 **Auto-reconnect** | 📦 **Cross-platform** |
-| Text, images, timestamps, party, secrets, buttons | Exponential backoff, tray indicator | Windows • Linux • macOS |
+| 📋 **Full RPC fields** | 🔄 **Auto-reconnect** | 🎨 **Custom CSS** |
+| Text, images, timestamps, party, secrets, buttons | Exponential backoff, tray indicator | Override theme, reload on apply |
+| 📦 **Cross-platform** | | |
+| Windows • Linux • macOS | | |
 
 <br>
 
@@ -91,11 +93,12 @@ Minimize to tray — your presence runs in the background.
 | Format | Install |
 |--------|---------|
 | 🪟 `.exe` | Double-click — auto-installs |
-| 🐧 `.AppImage` | `chmod +x && ./Frozen RPC-*.AppImage` |
-| 🐧 `.deb` | `sudo dpkg -i frozen-rpc_*.deb` |
-| 🐧 `.rpm` | `sudo rpm -i frozen-rpc-*.rpm` |
-| 🐧 `.pkg.tar.zst` | `sudo pacman -U frozen-rpc-*.pkg.tar.zst` |
+| 🐧 `.AppImage` | `chmod +x && ./Frozen-RPC-*.AppImage` |
+| 🐧 `.deb` | `sudo dpkg -i Frozen-RPC-*.deb` |
+| 🐧 `.rpm` | `sudo rpm -i Frozen-RPC-*.rpm` |
+| 🐧 `.pkg.tar.zst` | `sudo pacman -U Frozen-RPC-*.pkg.tar.zst` |
 | 🐧 `.flatpak` | `flatpak --user install frozen-rpc.flatpak` |
+| 🐧 **AUR** | `yay -S frozen-rpc` |
 | 🍎 `.dmg` | Drag to Applications |
 | 🍎 `.pkg` | Double-click installer |
 
@@ -113,7 +116,7 @@ Output goes to `../installer/`.
 ## 📁 Structure
 
 ```
-frosty-rpc/
+frozen-rpc/
 ├── src/              Main process & modules
 ├── renderer/         UI (HTML, JS, CSS)
 ├── shell/            Launchers, distro scripts, helpers
@@ -123,7 +126,7 @@ frosty-rpc/
 └── package.json
 ```
 
-Data lives in `rpc.db` (SQLite) and `config/config.json`.
+Data lives in `rpc.db` (SQLite) at your OS user data directory.
 
 <br>
 
@@ -132,5 +135,5 @@ Data lives in `rpc.db` (SQLite) and `config/config.json`.
 <p align="center">
   <sub>Built with Electron + discord-rpc + better-sqlite3</sub><br>
   <sub>MIT License · © NotFrost</sub><br>
-  <a href="https://github.com/FrostX2/frosty-rpc/releases">Releases</a> · <a href="https://github.com/FrostX2/frosty-rpc">GitHub</a>
+  <a href="https://github.com/FrostX2/frozen-rpc/releases">Releases</a> · <a href="https://github.com/FrostX2/frozen-rpc">GitHub</a>
 </p>
