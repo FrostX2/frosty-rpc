@@ -313,23 +313,24 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     container.innerHTML = profiles.map((p) => {
       const cfg = JSON.parse(p.config);
+      const escapedName = p.name.replace(/"/g, "&quot;");
       return `<div class="profile-item">
         <div class="profile-info">
           <strong>${p.name}</strong>
           <span class="profile-preview">${cfg.details || ""}${cfg.details && cfg.state ? " — " : ""}${cfg.state || ""}</span>
         </div>
         <div class="profile-actions">
-          <button class="btn-small" data-load="${p.id}">Load</button>
-          <button class="btn-small danger" data-del="${p.id}">Delete</button>
+          <button class="btn-small" data-load="${escapedName}">Load</button>
+          <button class="btn-small danger" data-del="${escapedName}">Delete</button>
         </div>
       </div>`;
     }).join("");
 
     container.querySelectorAll("[data-load]").forEach((btn) => {
       btn.addEventListener("click", async () => {
-        const id = btn.dataset.load;
+        const name = btn.dataset.load;
         const profiles = await window.rpcAPI.getProfiles();
-        const p = profiles.find((x) => x.id === id);
+        const p = profiles.find((x) => x.name === name);
         if (p) {
           fillFormFromConfig(JSON.parse(p.config));
           $("statusText").textContent = `Loaded "${p.name}"`;
@@ -341,7 +342,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     container.querySelectorAll("[data-del]").forEach((btn) => {
       btn.addEventListener("click", async () => {
-        await window.rpcAPI.deleteProfile(parseInt(btn.dataset.del, 10));
+        await window.rpcAPI.deleteProfile(btn.dataset.del);
         renderProfiles();
       });
     });

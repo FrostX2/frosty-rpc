@@ -302,14 +302,14 @@ ipcMain.handle("get-mode", () => getMode());
 ipcMain.handle("get-profiles", () => getProfiles());
 
 ipcMain.handle("save-profile", (_e, name, config) => {
-  const id = saveProfile(name, config);
-  logInfo(`Profile saved: "${name}" (id: ${id})`);
-  return id;
+  saveProfile(name, config);
+  logInfo(`Profile saved: "${name}"`);
+  return { success: true };
 });
 
-ipcMain.handle("delete-profile", (_e, id) => {
-  deleteProfile(id);
-  logInfo(`Profile deleted: ${id}`);
+ipcMain.handle("delete-profile", (_e, name) => {
+  deleteProfile(name);
+  logInfo(`Profile deleted: "${name}"`);
   return { success: true };
 });
 
